@@ -3,7 +3,7 @@ import { Calendar, Clock, Camera, Shield, Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://campuskitchen-production.up.railway.app/api';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -85,8 +85,8 @@ const HomePage = () => {
       }
 
       const endpoint = authMode === 'login'
-        ? 'http://localhost:5000/api/auth/login'
-        : 'http://localhost:5000/api/auth/register';
+        ? `${API_URL}/auth/login`
+        : `${API_URL}/auth/register`;
 
       const payload = authMode === 'login'
         ? { email: formData.email, password: formData.password }
