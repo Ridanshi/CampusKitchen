@@ -3,6 +3,8 @@ import { Container, Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
 import AdminNavbar from './AdminNavbar';
 import './admin.css';
 
+const API_BASE = "https://campuskitchen-production.up.railway.app";
+
 const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,7 +19,7 @@ const AdminDashboard = () => {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
       
       // Fetch main stats
-      const statsRes = await fetch('http://localhost:5000/api/admin/stats', {
+      const statsRes = await fetch(`${API_BASE}/api/admin/stats`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -25,13 +27,13 @@ const AdminDashboard = () => {
       const statsData = await statsRes.json();
 
       // Fetch complaints count
-      const complaintsRes = await fetch('http://localhost:5000/api/admin/complaints', {
+      const complaintsRes = await fetch(`${API_BASE}/api/admin/complaints`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const complaintsData = await complaintsRes.json();
 
       // Fetch photos count
-      const photosRes = await fetch('http://localhost:5000/api/admin/photos', {
+      const photosRes = await fetch(`${API_BASE}/api/admin/photos`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const photosData = await photosRes.json();

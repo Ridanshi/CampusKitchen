@@ -1,10 +1,10 @@
-// Updated AdminBookings.jsx with Companions Display
-
 import React, { useState, useEffect } from 'react';
 import { Container, Table, Badge, Button, Modal, Spinner, Alert, Card } from 'react-bootstrap';
 import AdminNavbar from './AdminNavbar';
 import * as XLSX from 'xlsx';
 import './admin.css';
+
+const API_BASE = "https://campuskitchen-production.up.railway.app";
 
 const AdminBookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -43,7 +43,7 @@ const AdminBookings = () => {
   const fetchBookings = async () => {
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/admin/bookings', {
+      const response = await fetch(`${API_BASE}/api/admin/bookings`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -130,16 +130,16 @@ const AdminBookings = () => {
       const ws = XLSX.utils.json_to_sheet(excelData);
 
       const colWidths = [
-        { wch: 20 }, // Student Name
-        { wch: 15 }, // Student ID
-        { wch: 25 }, // Email
-        { wch: 20 }, // Date
-        { wch: 15 }, // Time Slot
-        { wch: 40 }, // Companions
-        { wch: 30 }, // Equipment
-        { wch: 12 }, // Status
-        { wch: 10 }, // Has Photo
-        { wch: 25 }  // Booking ID
+        { wch: 20 }, 
+        { wch: 15 }, 
+        { wch: 25 }, 
+        { wch: 20 }, 
+        { wch: 15 }, 
+        { wch: 40 }, 
+        { wch: 30 }, 
+        { wch: 12 }, 
+        { wch: 10 }, 
+        { wch: 25 }  
       ];
       ws['!cols'] = colWidths;
 
@@ -359,7 +359,7 @@ const AdminBookings = () => {
         <Modal.Body className="text-center">
           {selectedPhoto && (
             <img
-              src={`http://localhost:5000${selectedPhoto}`}
+              src={`${API_BASE}${selectedPhoto}`}
               alt="Cleanup"
               style={{ maxWidth: '100%', maxHeight: '70vh', borderRadius: '8px' }}
             />

@@ -3,6 +3,8 @@ import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
 import AdminNavbar from './AdminNavbar';
 import './admin.css';
 
+const API_BASE = "https://campuskitchen-production.up.railway.app";
+
 const AdminProfile = () => {
   const [profileData, setProfileData] = useState({
     name: '',
@@ -37,7 +39,7 @@ const AdminProfile = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/get_admin', {
+      const response = await fetch(`${API_BASE}/get_admin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +91,7 @@ const AdminProfile = () => {
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
       
-      const response = await fetch('http://localhost:5000/update_admin_profile', {
+      const response = await fetch(`${API_BASE}/update_admin_profile`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -149,7 +151,7 @@ const AdminProfile = () => {
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
       
-      const response = await fetch('http://localhost:5000/change_pass', {
+      const response = await fetch(`${API_BASE}/change_pass`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

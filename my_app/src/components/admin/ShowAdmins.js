@@ -2,11 +2,13 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import React, { useState} from "react";
 
+const API_BASE = "https://campuskitchen-production.up.railway.app";
+
 function ShowAdmins() {
     const [admins, setAdmins] = useState([]);
     const displayAdmins = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/show_admins');
+            const res = await axios.get(`${API_BASE}/show_admins`);
             setAdmins(res.data);
             console.log(res.data);
         } catch (err) {

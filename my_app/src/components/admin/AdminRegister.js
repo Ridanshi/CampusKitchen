@@ -3,6 +3,8 @@ import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 import './admin.css';
 
+const API_BASE = "https://campuskitchen-production.up.railway.app";
+
 const AdminRegister = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -42,7 +44,7 @@ const AdminRegister = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/register-admin', {
+      const response = await fetch(`${API_BASE}/api/auth/register-admin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

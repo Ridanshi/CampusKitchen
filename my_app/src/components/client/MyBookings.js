@@ -18,7 +18,7 @@ const MyBookings = () => {
     const [bookingToCancel, setBookingToCancel] = useState(null);
 
     // API base URL
-    const API_BASE_URL = 'http://localhost:5000';
+    const API_BASE_URL = 'https://campuskitchen-production.up.railway.app';
 
     // Get token from sessionStorage
     const getAuthToken = () => {

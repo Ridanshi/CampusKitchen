@@ -5,6 +5,8 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import { LoadingSpinner } from './LoadingSpinner';
 
+const API_BASE_URL = 'https://campuskitchen-production.up.railway.app';
+
 const EditProfile = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -53,7 +55,7 @@ const EditProfile = () => {
 
       console.log('Fetching user data...');
 
-      const response = await fetch('http://localhost:5000/api/auth/me', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -151,7 +153,7 @@ const EditProfile = () => {
 
       console.log('Updating profile...');
 
-      const response = await fetch('http://localhost:5000/api/auth/update-profile', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/update-profile`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

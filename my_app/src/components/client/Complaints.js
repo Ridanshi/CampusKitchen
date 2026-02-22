@@ -3,6 +3,8 @@ import './Complaints.css';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
+const API_BASE_URL = 'https://campuskitchen-production.up.railway.app';
+
 const Complaints = () => {
   const [activeTab, setActiveTab] = useState('form'); // 'form' or 'myComplaints'
   const [formData, setFormData] = useState({
@@ -62,7 +64,7 @@ const Complaints = () => {
     setComplaintsLoading(true);
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/complaints', {
+      const response = await fetch(`${API_BASE_URL}/api/complaints`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -674,7 +676,7 @@ const Complaints = () => {
                     {selectedComplaint.photos.map((photo, idx) => (
                       <img
                         key={idx}
-                        src={`http://localhost:5000${photo}`}
+                        src={`${API_BASE_URL}${photo}`}
                         alt={`Evidence ${idx + 1}`}
                         className="modal-photo"
                       />

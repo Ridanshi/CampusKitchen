@@ -3,6 +3,8 @@ import { Container, Table, Badge, Button, Modal, Form, Spinner, Alert, Card } fr
 import AdminNavbar from './AdminNavbar';
 import './admin.css';
 
+const API_BASE = "https://campuskitchen-production.up.railway.app";
+
 const AdminComplaints = () => {
   const [complaints, setComplaints] = useState([]);
   const [filteredComplaints, setFilteredComplaints] = useState([]);
@@ -27,7 +29,7 @@ const AdminComplaints = () => {
   const fetchComplaints = async () => {
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/admin/complaints', {
+      const response = await fetch(`${API_BASE}/api/admin/complaints`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -66,7 +68,7 @@ const AdminComplaints = () => {
 
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/admin/complaints/${selectedComplaint._id}`, {
+      const response = await fetch(`${API_BASE}/api/admin/complaints/${selectedComplaint._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -318,7 +320,7 @@ const AdminComplaints = () => {
                     {selectedComplaint.photos.map((photo, idx) => (
                       <img
                         key={idx}
-                        src={`http://localhost:5000${photo}`}
+                        src={`${API_BASE}${photo}`}
                         alt={`Evidence ${idx + 1}`}
                         style={{ width: '150px', height: '150px', objectFit: 'cover', borderRadius: '8px' }}
                       />

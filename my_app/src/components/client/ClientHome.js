@@ -4,6 +4,8 @@ import Navbar from './Navbar';
 import './ClientHome.css';
 import Footer from './Footer';
 
+const API_BASE_URL = 'https://campuskitchen-production.up.railway.app';
+
 const HomePage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
@@ -47,7 +49,7 @@ const HomePage = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/auth/me', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -68,7 +70,7 @@ const HomePage = () => {
   const fetchBookings = async () => {
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/bookings?type=upcoming', {
+      const response = await fetch(`${API_BASE_URL}/api/bookings?type=upcoming`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -93,10 +95,10 @@ const HomePage = () => {
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
       
-      const upcomingRes = await fetch('http://localhost:5000/api/bookings?type=upcoming', {
+      const upcomingRes = await fetch(`${API_BASE_URL}/api/bookings?type=upcoming`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      const historyRes = await fetch('http://localhost:5000/api/bookings?type=history', {
+      const historyRes = await fetch(`${API_BASE_URL}/api/bookings?type=history`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       
@@ -125,7 +127,7 @@ const HomePage = () => {
   const checkActiveBooking = async () => {
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/bookings/active-qr', {
+      const response = await fetch(`${API_BASE_URL}/api/bookings/active-qr`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -203,7 +205,7 @@ const HomePage = () => {
       formData.append('bookingId', activeBooking.id);
 
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/bookings/upload-photo', {
+      const response = await fetch(`${API_BASE_URL}/api/bookings/upload-photo`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

@@ -4,8 +4,10 @@ import axios from "axios";
 import AdmMenu from "./admin/AdminNavbar";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 
+const API_BASE_URL = "https://campuskitchen-production.up.railway.app";
+
 function Editprof() {
-    let history = useNavigate();
+    const navigate = useNavigate();
     const { id } = useParams();
 
     const [name, setName] = useState("");
@@ -13,49 +15,61 @@ function Editprof() {
     const [contact, setContact] = useState("");
     const [result, setResult] = useState("");
 
-    useEffect(
-        () => {
-            console.log(id);
-            displayAdmin();
-        },
-        []
-    )
+    const token = sessionStorage.getItem("token");
 
-    const displayAdmin = async (e) => {
-        //e.preventDefault();
-        let admindata = await axios.get("http://localhost:5000/get_admin");
+    useEffect(() => {
+        displayAdmin();
+    }, []);
 
-        console.log(admindata);
-        if (admindata) {
-            setName(admindata.data.name);
-            setAddress(admindata.data.address);
-            setContact(admindata.data.contact);
-        }
-        else {
-            setResult("Data Not Found")
+    const displayAdmin = async () => {
+        try {
+            const response = await axios.get(
+                `${API_BASE_URL}/get_admin/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (response.data) {
+                setName(response.data.name);
+                setAddress(response.data.address);
+                setContact(response.data.contact);
+            }
+        } catch (error) {
+            console.error(error);
+            setResult("Data Not Found");
         }
     };
+
     const handleOnSubmit = async (e) => {
         e.preventDefault();
-        let result = await fetch(
-            'http://localhost:5000/update_admin_profile', {
-            method: "post",
-            body: JSON.stringify({ name, address, contact }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        result = await result.json();
-        console.log(result);
+        setResult("");
 
-        if (result) {
-            setResult("Data Updated successfully!");
-            setName(name);
-            setAddress(address);
-            setContact(contact);
-        }
-        else {
-            setResult("Data cannot be changed");
+        try {
+            const response = await fetch(
+                `${API_BASE_URL}/update_admin_profile/${id}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ name, address, contact }),
+                }
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setResult("Data Updated successfully!");
+            } else {
+                setResult(data.error || "Data cannot be changed");
+            }
+        } catch (error) {
+            console.error(error);
+            setResult("Something went wrong");
         }
     };
 
@@ -65,43 +79,57 @@ function Editprof() {
             <Container className="mt-4">
                 <Row className="justify-content-center">
                     <Col md={8} lg={6}>
-                        <h4 className="text-center text-primary mb-4">Edit Medical Profile</h4>
-                        <Form onSubmit={handleOnSubmit} className="p-4 border rounded shadow-sm bg-light">
+                        <h4 className="text-center text-primary mb-4">
+                            Edit Admin Profile
+                        </h4>
+
+                        <Form
+                            onSubmit={handleOnSubmit}
+                            className="p-4 border rounded shadow-sm bg-light"
+                        >
                             <Form.Group className="mb-3">
                                 <Form.Label>Name</Form.Label>
                                 <Form.Control
                                     type="text"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    placeholder="Enter name"
                                 />
                             </Form.Group>
+
                             <Form.Group className="mb-3">
                                 <Form.Label>Address</Form.Label>
                                 <Form.Control
                                     type="text"
                                     value={address}
                                     onChange={(e) => setAddress(e.target.value)}
-                                    placeholder="Enter owner name"
                                 />
                             </Form.Group>
+
                             <Form.Group className="mb-3">
                                 <Form.Label>Contact</Form.Label>
                                 <Form.Control
                                     type="text"
                                     value={contact}
                                     onChange={(e) => setContact(e.target.value)}
-                                    placeholder="Enter address"
                                 />
                             </Form.Group>
+
                             <div className="d-grid">
                                 <Button type="submit" variant="primary">
                                     Update Profile
                                 </Button>
                             </div>
                         </Form>
+
                         {result && (
-                            <Alert className="mt-4" variant={result.includes("successfully") ? "success" : "danger"}>
+                            <Alert
+                                className="mt-4"
+                                variant={
+                                    result.includes("successfully")
+                                        ? "success"
+                                        : "danger"
+                                }
+                            >
                                 {result}
                             </Alert>
                         )}
@@ -111,4 +139,5 @@ function Editprof() {
         </>
     );
 }
+
 export default Editprof;

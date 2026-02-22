@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import './ForgotPassword.css';
 import Footer from './client/Footer';
 
+const API_BASE_URL = "https://campuskitchen-production.up.railway.app";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState(1); // 1: Reset Form, 2: Success
+  const [step, setStep] = useState(1); 
   const [email, setEmail] = useState('');
   const [studentId, setStudentId] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -38,7 +39,7 @@ const ForgotPassword = () => {
         throw new Error('Passwords do not match');
       }
 
-      const response = await fetch('http://localhost:5000/api/auth/reset-password-studentid', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/reset-password-studentid`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

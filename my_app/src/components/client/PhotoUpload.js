@@ -3,6 +3,8 @@ import './PhotoUpload.css';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
+const API_BASE_URL = 'https://campuskitchen-production.up.railway.app';
+
 const PhotoUpload = () => {
     const [activeBooking, setActiveBooking] = useState(null);
     const [uploadedPhotos, setUploadedPhotos] = useState([]);
@@ -50,7 +52,7 @@ const PhotoUpload = () => {
                 return;
             }
 
-            const response = await fetch('http://localhost:5000/api/bookings/active-upload', {
+            const response = await fetch(`${API_BASE_URL}/api/bookings/active-upload`, {
                 method: 'GET',
                 headers: { 
                     'Authorization': `Bearer ${token}`,
@@ -95,7 +97,7 @@ const PhotoUpload = () => {
                 return;
             }
 
-            const response = await fetch('http://localhost:5000/api/my-photos', {
+            const response = await fetch(`${API_BASE_URL}/api/my-photos`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -158,8 +160,7 @@ const PhotoUpload = () => {
             const formData = new FormData();
             formData.append('photo', selectedFile);
 
-            const response = await fetch(
-                `http://localhost:5000/api/upload-cleanup/${activeBooking.id}`,
+            const response = await fetch(`${API_BASE_URL}/api/upload-cleanup/${activeBooking.id}`,
                 { 
                     method: 'POST',
                     headers: {
@@ -212,8 +213,7 @@ const PhotoUpload = () => {
                 return;
             }
 
-            const response = await fetch(
-                `http://localhost:5000/api/delete-cleanup/${photoId}`,
+            const response = await fetch(`${API_BASE_URL}/api/delete-cleanup/${photoId}`, 
                 { 
                     method: 'DELETE',
                     headers: {
@@ -424,14 +424,14 @@ const PhotoUpload = () => {
                                     <div key={photo.id} className="photo-card">
                                         <div className="photo-image-container">
                                             <img
-                                                src={`http://localhost:5000${photo.photoUrl}`}
+                                                src={`${API_BASE_URL}${photo.photoUrl}`}
                                                 alt={`Cleanup from ${photo.date}`}
                                                 className="photo-image"
                                             />
                                             <div className="photo-overlay">
                                                 <button
                                                     className="view-full-btn"
-                                                    onClick={() => window.open(`http://localhost:5000${photo.photoUrl}`, '_blank')}
+                                                    onClick={() => window.open(`${API_BASE_URL}${photo.photoUrl}`, '_blank')}
                                                 >
                                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                                                         <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="2" />

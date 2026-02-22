@@ -3,6 +3,8 @@ import { Container, Row, Col, Card, Badge, Button, Modal, Spinner, Alert, Form, 
 import AdminNavbar from './AdminNavbar';
 import './admin.css';
 
+const API_BASE = "https://campuskitchen-production.up.railway.app";
+
 const AdminPhotos = () => {
   const [photos, setPhotos] = useState([]);
   const [filteredPhotos, setFilteredPhotos] = useState([]);
@@ -26,7 +28,7 @@ const AdminPhotos = () => {
   const fetchPhotos = async () => {
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/admin/photos', {
+      const response = await fetch(`${API_BASE}/api/admin/photos`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -135,7 +137,7 @@ const AdminPhotos = () => {
             <h2>${photo.studentName}</h2>
             <p><strong>ID:</strong> ${photo.studentId} | <strong>Date:</strong> ${formatDate(photo.date)} | <strong>Time:</strong> ${photo.timeSlot}</p>
           </div>
-          <img src="http://localhost:5000${photo.photoUrl}" alt="Cleanup Photo - ${photo.studentName}">
+          <img src="${API_BASE}${photo.photoUrl}" alt="Cleanup Photo - ${photo.studentName}">
         </body>
       </html>
     `);
@@ -171,7 +173,7 @@ const AdminPhotos = () => {
     
     for (const photo of selectedPhotoObjects) {
       try {
-        const response = await fetch(`http://localhost:5000${photo.photoUrl}`);
+        const response = await fetch(`${API_BASE}${photo.photoUrl}`);
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -204,7 +206,7 @@ const AdminPhotos = () => {
     setDeleting(true);
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/admin/photos/delete', {
+      const response = await fetch(`${API_BASE}/api/admin/photos/delete`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -380,7 +382,7 @@ const AdminPhotos = () => {
                   <div style={{ position: 'relative' }}>
                     <Card.Img
                       variant="top"
-                      src={`http://localhost:5000${photo.photoUrl}`}
+                      src={`${API_BASE}${photo.photoUrl}`}
                       className="photo-card-img"
                       style={{ cursor: 'pointer' }}
                       onClick={() => handleViewPhoto(photo)}

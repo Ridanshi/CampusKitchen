@@ -39,7 +39,7 @@ const BookingPage = () => {
     return null;
   };
 
-  const API_BASE_URL = 'http://localhost:5000';
+  const API_BASE_URL = 'https://campuskitchen-production.up.railway.app';
 
   useEffect(() => {
     const token = getAuthToken();

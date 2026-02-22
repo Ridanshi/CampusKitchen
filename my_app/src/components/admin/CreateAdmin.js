@@ -3,13 +3,15 @@ import { Container, Row, Col, Card, Form, Button, Alert, Table, Badge } from 're
 import AdminNavbar from './AdminNavbar';
 import './admin.css';
 
+const API_BASE = "https://campuskitchen-production.up.railway.app";
+
 const CreateAdmin = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
-    adminId: '' // ✅ Changed from studentId to adminId
+    adminId: '' 
   });
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,7 +25,7 @@ const CreateAdmin = () => {
   const fetchAdmins = async () => {
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/admin/users', {
+      const response = await fetch(`${API_BASE}/api/admin/users`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -65,8 +67,7 @@ const CreateAdmin = () => {
 
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      // ✅ Fixed endpoint to match backend
-      const response = await fetch('http://localhost:5000/api/auth/register-admin', {
+      const response = await fetch(`${API_BASE}/api/auth/register-admin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

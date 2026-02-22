@@ -3,6 +3,8 @@ import { Container, Table, Badge, Form, InputGroup, Spinner, Alert, Card } from 
 import AdminNavbar from './AdminNavbar';
 import './admin.css';
 
+const API_BASE = "https://campuskitchen-production.up.railway.app";
+
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -22,7 +24,7 @@ const AdminUsers = () => {
   const fetchUsers = async () => {
     try {
       const token = sessionStorage.getItem('token') || localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/admin/users', {
+      const response = await fetch(`${API_BASE}/api/admin/users`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 

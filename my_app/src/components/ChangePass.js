@@ -1,49 +1,67 @@
 import { useState } from "react";
-//import { useNavigate } from "react-router-dom";
-function ChangePass()
-{
-    const[curr, setCurr] = useState("");
-    const[pass, setPass] = useState("");
-    //const[confirm, setConfirm] = useState("");
-    const[result, setResult] = useState("");
-    //const navigate=useNavigate();
 
-    const handleOnSubmit=async(e)=>{
+const API_BASE_URL = "https://campuskitchen-production.up.railway.app";
+
+function ChangePass() {
+    const [curr, setCurr] = useState("");
+    const [pass, setPass] = useState("");
+    const [result, setResult] = useState("");
+
+    const handleOnSubmit = async (e) => {
         e.preventDefault();
-        let result = await fetch(
-            'http://localhost:5000/change_pass', {
-                method: "post",
-                body: JSON.stringify({curr, pass }),
+        setResult("");
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/change_pass`, {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
-                }
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ curr, pass }),
             });
-            result = await result.json();
-            console.log(result);
-            
-            if(result)
-            {
-                setResult("Data saved successfully!");
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setResult("Password changed successfully!");
                 setCurr("");
                 setPass("");
+            } else {
+                setResult(data.error || "Password cannot be changed");
             }
-            else
-            {
-                setResult("Password cannot be changed");
-            }
+        } catch (error) {
+            console.error(error);
+            setResult("Something went wrong. Try again.");
+        }
     };
-    return(
-          <div>
+
+    return (
+        <div>
             <h1>Change Password</h1>
-            <p>Current Password <input type="text" value={curr} onChange={(e)=>setCurr(e.target.value)}/></p>
-            <p>Password <input type="text" value={pass} onChange={(e) => setPass(e.target.value)} /></p>
 
             <p>
-                <button type='submit' onClick={handleOnSubmit}>Submit</button>
+                Current Password{" "}
+                <input
+                    type="password"
+                    value={curr}
+                    onChange={(e) => setCurr(e.target.value)}
+                />
             </p>
+
+            <p>
+                New Password{" "}
+                <input
+                    type="password"
+                    value={pass}
+                    onChange={(e) => setPass(e.target.value)}
+                />
+            </p>
+
+            <button onClick={handleOnSubmit}>Submit</button>
 
             <h2>{result}</h2>
         </div>
-    )
+    );
 }
+
 export default ChangePass;
