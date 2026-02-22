@@ -125,7 +125,7 @@ const Complaints = () => {
         formDataToSend.append('photos', photo);
       });
 
-      const response = await fetch('http://localhost:5000/api/complaints', {
+      const response = await fetch(`${API_BASE_URL}/api/complaints`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
