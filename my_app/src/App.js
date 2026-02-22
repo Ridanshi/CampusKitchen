@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 import HomePage from './components/HomePage';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import ChangePass from './components/ChangePass';
-import Search from './components/Search';
 
 import ClientHome from './components/client/ClientHome'
 import ClientBook from './components/client/ClientBook'
@@ -43,7 +42,6 @@ function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/change_pass' element={<ChangePass />} />
-          <Route path='/search' element={<Search />} />
 
           {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<ProtectedRoute adminOnly={true}><AdminDashboard /></ProtectedRoute>} />
