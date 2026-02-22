@@ -11,12 +11,11 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
-app.use(cors());
 app.use(cors({
   origin: [
     "http://localhost:3000",
-    "https://campus-kitchen.vercel.app",   // your real Vercel domain
-    "https://campus-kitchen-brown.vercel.app" // if preview
+    "https://campus-kitchen.vercel.app",
+    "https://campus-kitchen-brown.vercel.app"
   ],
   credentials: true
 }));
