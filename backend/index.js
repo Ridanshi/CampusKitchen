@@ -15,7 +15,8 @@ app.use(cors({
   origin: [
     "http://localhost:3000",
     "https://campus-kitchen.vercel.app",
-    "https://campus-kitchen-brown.vercel.app"
+    "https://campus-kitchen-brown.vercel.app",
+    "https://campus-kitchen-virid.vercel.app"
   ],
   credentials: true
 }));
